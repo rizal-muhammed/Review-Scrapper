@@ -6,7 +6,6 @@ click
 Flask
 Flask-Cors
 gunicorn
-idnaitsdangerous
 Jinja2
 MarkupSafe
 requests
