@@ -1,0 +1,1 @@
+from reviewScrapper.components.data_scrapper import (DataScrapper)
