@@ -1,0 +1,1 @@
+from reviewScrapper.entity.config_entity import (DataScrapperConfig)
