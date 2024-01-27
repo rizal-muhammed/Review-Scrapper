@@ -1,0 +1,129 @@
+import os
+import yaml
+import shutil
+
+from box import ConfigBox
+from box.exceptions import BoxValueError
+from ensure import ensure_annotations
+from pathlib import Path
+
+from reviewScrapper import logger
+
+
+def none_constructor(loader, node):
+    return None
+
+
+@ensure_annotations
+def read_yaml(path_to_yaml) -> ConfigBox:
+    """
+        Reads yaml file and returns.
+
+        Parameters
+        ----------
+        path_to_yaml : str or path-like
+            Path to the yaml file.
+
+        Returns
+        -------
+        ConfigBox or None
+            Returns the content of yaml file read in ConfigBox type.
+
+        Raises
+        ------
+        BoxValueError
+            If the yaml file is empty or not in right format.
+        Exception
+
+    """
+    try:
+        path_to_yaml = Path(path_to_yaml)
+        yaml.add_constructor('tag:yaml.org,2002:null', none_constructor)
+        with open(path_to_yaml) as yaml_file:
+            content = yaml.load(yaml_file, Loader=yaml.Loader)
+            # content = yaml.safe_load(yaml_file)
+            logger.info(f"yaml file: {path_to_yaml} loaded successfully")
+            return ConfigBox(content)
+        
+    except BoxValueError:
+        raise ValueError("yaml file is empty or not in right format.")
+    except Exception as e:
+        raise e
+
+
+@ensure_annotations
+def create_directories(path_to_directories: list, verbose=True):
+    """
+        Create directories(if not exists) in the list provided.
+
+        Parameters
+        ----------
+        path_to_directories : list
+            A list of paths to create.
+        verbose : bool(optional) : defaults to True
+            Controls the verbosity. If True, messages are displayed.
+
+        Returns
+        -------
+        None
+
+        Raises
+        ------
+        Exception
+
+    """
+    try:
+        for path in path_to_directories:
+            path = Path(path)
+            os.makedirs(path, exist_ok=True)
+            if verbose:
+                logger.info(f"created directory (if not exists) at: {path}")
+    
+    except Exception as e:
+        raise e
+
+
+@ensure_annotations
+def remove_directories(path_to_directories: list, verbose=True):
+    """
+        remove directories(if exists) in the list provided.
+
+        Parameters
+        ----------
+        path_to_directories : list
+            A list of paths to create.
+        verbose : bool(optional) : defaults to True
+            Controls the verbosity. If True, messages are displayed.
+
+        Returns
+        -------
+        None
+
+        Raises
+        ------
+        Exception
+
+    """
+    try:
+        for path in path_to_directories:
+            path = Path(path)
+            shutil.rmtree(path)
+            if verbose:
+                logger.info(f"removed directory at: {path}")
+    
+    except Exception as e:
+        raise e
+
+
+@ensure_annotations
+def get_size(path: Path) -> str:
+    """get size in KB
+
+    Args:
+        path (Path): path of the file
+
+    Returns:
+        str: size in KB
+    """
+    size_in_kb = round(os.path.getsize(path)/1024)
+    return f"~ {size_in_kb} KB"
