@@ -1,0 +1,1 @@
+from reviewScrapper.config.configuration import ConfigurationManager
