@@ -167,3 +167,7 @@ cython_debug/
 
 # trials
 research/trials.ipynb
+
+# data and meta data
+artifacts/data_scrapper/data/*
+artifacts/data_scrapper/meta_data/*
