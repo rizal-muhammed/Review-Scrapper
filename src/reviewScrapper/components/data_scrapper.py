@@ -225,12 +225,13 @@ class DataScrapper:
         """
         try:
             logger.info("Saving file...")
-            if os.path.exists(os.path.join(self.config.data_dir, "reviews.csv")):
+            filename = self.config.search_string + "_reviews.csv"
+            if os.path.exists(os.path.join(self.config.data_dir, filename)):
                 df_old = pd.read_csv(os.path.join(self.config.data_dir, "reviews.csv"))
                 df_old = pd.concat([df_old, df], ignore_index=True)
-                df_old.to_csv(os.path.join(self.config.data_dir, "reviews.csv"), index=False)
+                df_old.to_csv(os.path.join(self.config.data_dir, filename), index=False)
             else:
-                df.to_csv(os.path.join(self.config.data_dir, "reviews.csv"), index=False)
+                df.to_csv(os.path.join(self.config.data_dir, filename), index=False)
 
             logger.info("File saved successfully.")
         except Exception as e:
