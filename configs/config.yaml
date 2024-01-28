@@ -1,0 +1,9 @@
+artifacts_root: artifacts
+
+
+data_scrapper:
+  root_dir: artifacts/data_scrapper
+  source_URL: https://www.flipkart.com
+  data_dir: artifacts/data_scrapper/data
+  meta_data_dir: artifacts/data_scrapper/meta_data
+  params_search_string: str
